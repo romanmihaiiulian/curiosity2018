@@ -1,0 +1,9 @@
+server:
+  port: 8088
+
+logging:
+  file: app.log
+
+voiceit:
+  key: key_f10d2243716b4d6e807ec7605b818119
+  token: tok_2e12f317bc8a41ebaab2c81e7ee4c1cb

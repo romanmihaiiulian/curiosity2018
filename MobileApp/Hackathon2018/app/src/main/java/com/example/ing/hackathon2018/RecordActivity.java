@@ -1,24 +1,16 @@
 package com.example.ing.hackathon2018;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
-import java.util.UUID;
 
 
 public class RecordActivity extends AppCompatActivity {
@@ -30,10 +22,6 @@ public class RecordActivity extends AppCompatActivity {
 
     private MediaRecorder mediaRecorder;
     String voiceStoragePath;
-
-    static final String AB = "abcdefghijklmnopqrstuvwxyz";
-    static Random rnd = new Random();
-
     MediaPlayer mediaPlayer;
 
     @Override
@@ -46,9 +34,6 @@ public class RecordActivity extends AppCompatActivity {
         progressBar.setMax(3);
         progressBar.setProgress(1);
 
-//        hasSDCard();
-
-//        voiceStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath();
         File audioVoice = new File("/mnt/sdcard/hackathon/");
         if(!audioVoice.exists()){
             audioVoice.mkdir();
@@ -103,15 +88,13 @@ public class RecordActivity extends AppCompatActivity {
                 step += 1;
                 progressBar.setProgress(step);
                 btn_record.setEnabled(true);
+                if (step == 3) {
+                    btn_next.setText("FINISH");
+                }
+                btn_next.setEnabled(false);
+                btn_replay.setEnabled(false);
             }
         });
-    }
-
-    private String generateVoiceFilename( int len ){
-        StringBuilder sb = new StringBuilder( len );
-        for( int i = 0; i < len; i++ )
-            sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
-        return sb.toString();
     }
 
     private void startAudioRecording(){

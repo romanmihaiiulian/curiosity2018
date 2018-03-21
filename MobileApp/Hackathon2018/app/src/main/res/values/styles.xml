@@ -1,8 +1,5 @@
 <resources>
 
-     Base application theme.
-     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-         <item name="colorPrimary">@android:color/background_light</item>
-     </style>
-    
+    Base application theme.
+
 </resources>

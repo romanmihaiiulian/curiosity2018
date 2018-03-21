@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.ing.hackathon2018.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="361dp"
+            android:layout_height="130dp"
+            android:layout_weight="0.88"
+            android:background="@color/ingOrange"
+            app:srcCompat="@drawable/commercial" />
+
+        <EditText
+            android:id="@+id/et_login_username"
+            android:layout_width="350dp"
+            android:layout_height="30dp"
+            android:background="#FFFFFF"
+            android:drawableLeft="@drawable/username"
+            android:hint="Username"
+            android:inputType="text"
+            android:textColor="#FF000000" />
+
+        <EditText
+            android:id="@+id/et_login_password"
+            android:layout_width="350dp"
+            android:layout_height="30dp"
+            android:background="#FFFFFF"
+            android:drawableLeft="@drawable/password"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColor="#FF000000" />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LOGIN" />
+
+        <ImageView
+            android:id="@+id/imgview_record"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/record" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -8,19 +8,33 @@
     tools:context="com.example.ing.hackathon2018.LoginActivity">
 
     <LinearLayout
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
+        android:background="@color/white"
         android:orientation="vertical"
         android:weightSum="1">
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="361dp"
-            android:layout_height="130dp"
-            android:layout_weight="0.88"
-            android:background="@color/ingOrange"
-            app:srcCompat="@drawable/commercial" />
+            android:id="@+id/img_ing_logo"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ING_logo" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_ing_commercial"
+                android:layout_width="226dp"
+                android:layout_height="127dp"
+                app:srcCompat="@drawable/ING_commercial" />
+
+
+        </LinearLayout>
+
 
         <EditText
             android:id="@+id/et_login_username"

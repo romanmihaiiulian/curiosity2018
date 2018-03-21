@@ -23,24 +23,41 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-677" />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="my-app.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/my-app.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1035" />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="my-view1.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/my-view1.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="872">
-              <caret line="126" column="59" selection-start-line="126" selection-start-column="59" selection-end-line="126" selection-end-column="59" />
+            <state relative-caret-position="255">
+              <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="my-app.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/my-app.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="350">
+              <caret line="84" column="56" selection-start-line="84" selection-start-column="56" selection-end-line="84" selection-end-column="56" />
+              <folding>
+                <element signature="n#style#0;n#template#0;n#dom-module#0;n#!!top" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="my-icons.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/my-icons.html">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="my-view1.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/my-view1.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-692">
+              <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="shared-styles.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/shared-styles.html">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="recording-button.html" pinned="false" current-in-tab="false">
@@ -88,6 +105,9 @@
       <find>voiceContent</find>
       <find>recordVoice</find>
       <find>base64</find>
+      <find>MyApp</find>
+      <find>My App</find>
+      <find>View One</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -100,6 +120,8 @@
         <option value="$PROJECT_DIR$/bower.json" />
         <option value="$PROJECT_DIR$/bower_components/recording-button/recording-button.html" />
         <option value="$PROJECT_DIR$/src/my-view1.html" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/src/my-app.html" />
       </list>
     </option>
   </component>
@@ -138,6 +160,11 @@
               <item name="PolymerApp" type="b2602c69:ProjectViewProjectNode" />
               <item name="PolymerApp" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PolymerApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PolymerApp" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -221,12 +248,12 @@
       <option name="presentableId" value="Default" />
       <updated>1521638780578</updated>
       <workItem from="1521638782261" duration="48000" />
-      <workItem from="1521638850196" duration="10178000" />
+      <workItem from="1521638850196" duration="10998000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10226000" />
+    <option name="totallyTimeSpent" value="11046000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
@@ -281,16 +308,6 @@
     <entry file="file://$PROJECT_DIR$/manifest.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-677" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/my-app.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1035" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bower_components/app-layout/app-grid/demo/flickr-grid-layout.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
@@ -320,10 +337,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/my-icons.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/shared-styles.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/my-view1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="872">
-          <caret line="126" column="59" selection-start-line="126" selection-start-column="59" selection-end-line="126" selection-end-column="59" />
+        <state relative-caret-position="-692">
+          <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/my-app.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="84" column="56" selection-start-line="84" selection-start-column="56" selection-end-line="84" selection-end-column="56" />
+          <folding>
+            <element signature="n#style#0;n#template#0;n#dom-module#0;n#!!top" />
+          </folding>
         </state>
       </provider>
     </entry>

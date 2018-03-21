@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/recording-button/recording-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view1">
@@ -30,13 +31,111 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <br/>
       <br/>
 
-      <recording-button></recording-button>
+      <button on-click="callReqister">Register</button>
+
+      <button on-click="callEnroll">Enroll</button>
+
+      <button on-click="callLogin">Login</button>
+
+      <recording-button id="recordVoice" voice="{{voiceContent}}"></recording-button>
+
+
+      <iron-ajax
+              id="callReqister"
+              method="POST"
+              url="http://localhost:8088/api/register"
+              handle-as="json"
+              on-response="_handleSuccessResponse"
+              on-error="_handleErrorResponse"
+              content-type="application/json"
+              debounce-duration="300">
+      </iron-ajax>
+
+      <iron-ajax
+              id="callEnroll"
+              method="POST"
+              url="http://localhost:8088/api/enroll/usr_a4d9a0b4f28f4f52b61ec430b7c74939"
+              handle-as="json"
+              on-response="_handleSuccessResponse"
+              on-error="_handleErrorResponse"
+              content-type="application/json"
+              debounce-duration="300">
+      </iron-ajax>
+
+      <iron-ajax
+              id="callLogin"
+              method="POST"
+              url="http://localhost:8088/api/login/usr_a4d9a0b4f28f4f52b61ec430b7c74939"
+              handle-as="json"
+              on-response="_handleSuccessResponse"
+              on-error="_handleErrorResponse"
+              content-type="application/json"
+              debounce-duration="300">
+      </iron-ajax>
+
     </div>
   </template>
 
   <script>
     class MyView1 extends Polymer.Element {
       static get is() { return 'my-view1'; }
+
+        static get properties () {
+            return {
+                voiceContent: {
+                    type: String,
+                    notify: true,
+                    reflectToAttribute: true
+                },
+                userId: {
+                    type: String,
+                    value: null
+                }
+            }
+        }
+
+        constructor () {
+            super ();
+
+            this._recordedChunks = [];
+            this._isNewDownload = false;
+        }
+
+        ready () {
+            super.ready();
+            console.log(this.voiceContent);
+        }
+
+        callReqister() {
+          this.$.callReqister.body = {
+              id: 2,
+              voiceData: this.voiceContent
+          }
+          this.$.callReqister.generateRequest();
+        }
+
+        callEnroll() {
+
+
+          // this.$.callEnroll.url += this.userId;
+          // console.log(this.$.callEnroll.url);
+          this.$.callEnroll.body = this.$.recordVoice.voice;
+          this.$.callEnroll.generateRequest();
+        }
+
+        callLogin() {
+          this.$.callLogin.body = this.$.recordVoice.voice;
+          this.$.callLogin.generateRequest();
+        }
+
+        _handleSuccessResponse(event) {
+          console.log(event.detail.response);
+          this.userId = event.detail.response;
+        }
+
+        _handleErrorResponse() {
+
+        }
     }
 
     window.customElements.define(MyView1.is, MyView1);

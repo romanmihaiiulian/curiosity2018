@@ -15,12 +15,9 @@ public class RegisterService {
     @Autowired
     private VoiceProvider voiceProvider;
 
-    public void registerUser(String base64RecordFingerprint) {
-        String userId = createUser();
-        System.out.println("USER ID: " + userId);
-
+    public void registerUser(String userId, String base64RecordFingerprint) {
         String result = createVoiceEnrollment(userId, "en-US", Base64.decodeBase64(base64RecordFingerprint));
-        System.out.println("Voice enroll: " + result);
+        System.out.println("Voice enroll1 : " + result);
     }
 
     private String createUser() {

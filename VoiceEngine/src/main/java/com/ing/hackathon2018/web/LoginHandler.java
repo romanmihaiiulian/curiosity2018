@@ -12,6 +12,7 @@ public class LoginHandler {
     @Autowired
     private LoginService loginService;
 
+    @CrossOrigin
     @RequestMapping(value = "/api/login/{id}", method = RequestMethod.POST)
     public Mono login(@PathVariable(value="id") String id, @RequestBody String base64Record) {
         loginService.verifyRecord(id, base64Record);

@@ -11,6 +11,7 @@ public class EnrollHandler {
     @Autowired
     private RegisterService registerService;
 
+    @CrossOrigin
     @RequestMapping(value = "/api/enroll/{id}", method = RequestMethod.POST)
     public Mono register(@PathVariable(value="id") String id, @RequestBody String base64Record) {
         registerService.registerUser(id, base64Record);

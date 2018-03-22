@@ -1,0 +1,559 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-icons/av-icons.html">
+<link rel="import" href="../audio-player/audio-player.html">
+<link rel="import" href="../app-getusermedia/app-getusermedia.html">
+
+<dom-module id="recording-button">
+    <template>
+        <style>
+            :host {
+                --control-wrapper: {
+                    padding       : 10px 20px;
+                    border        : 1px solid #888888;
+                    border-radius : 4px;
+                };
+
+                --time-wrapper: {
+                    padding          : 5px 20px;
+                    background-color : #eeeeee;
+                    border-radius    : 10px;
+                };
+
+                --time: {
+                    color : #888888;
+                };
+
+                --buttons: {
+                };
+
+                --buttons-disabled: {
+                };
+
+                --button-mic: {
+                };
+
+                --button-mic-disabled: {
+                };
+
+                --button-rec: {
+                    color : #ff0006;
+                };
+
+                --button-rec-disabled: {
+                    color : #ff6f6f;
+                };
+
+                --button-play: {
+                };
+
+                --button-play-disabled: {
+                };
+
+                --button-pause: {
+                };
+
+                --button-pause-disabled: {
+                };
+
+                --button-stop: {
+                };
+
+                --button-stop-disabled: {
+                };
+
+                --button-dl: {
+                };
+
+                --button-dl-disabled: {
+                };
+            }
+
+            .control-wrapper {
+                display : inline-block;
+                @apply --control-wrapper;
+            }
+
+            .time-wrapper {
+                display : inline-block;
+                @apply --time-wrapper;
+            }
+
+            .time {
+                @apply --time;
+            }
+
+            .buttons {
+                @apply --buttons;
+            }
+
+            .buttons[disabled] {
+                @apply --buttons;
+                @apply --buttons-disabled;
+            }
+
+            .button-mic {
+                @apply --button-mic;
+            }
+
+            .button-mic[disabled] {
+                @apply --button-mic;
+                @apply --button-mic-disabled;
+            }
+
+            .button-rec {
+                @apply --button-rec;
+            }
+
+            .button-rec[disabled] {
+                @apply --button-rec;
+                @apply --button-rec-disabled;
+            }
+
+            .button-play {
+                @apply --button-play;
+            }
+
+            .button-play[disabled] {
+                @apply --button-play;
+                @apply --button-play-disabled;
+            }
+
+            .button-pause {
+                @apply --button-pause;
+            }
+
+            .button-pause[disabled] {
+                @apply --button-pause;
+                @apply --button-pause-disabled;
+            }
+
+            .button-stop {
+                @apply --button-stop;
+            }
+
+            .button-stop[disabled] {
+                @apply --button-stop;
+                @apply --button-stop-disabled;
+            }
+
+            .button-dl {
+                position : relative;
+                @apply --button-dl;
+            }
+
+            .button-dl[disabled] {
+                @apply --button-dl;
+                @apply --button-dl-disabled;
+            }
+
+            .badge::after {
+                position            : absolute;
+                top                 : 5px;
+                right               : 5px;
+                content             : "";
+                width               : 8px;
+                height              : 8px;
+                background-image    : url("assets/image/circle.svg");
+                background-repeat   : no-repeat;
+                background-position : center;
+                background-size     : 100%;
+            }
+
+        </style>
+
+        <app-getusermedia id="getusermedia" audio></app-getusermedia>
+        <audio-player id="player" src="{{recordingSoundUrl}}" volume="5"></audio-player>
+        <a id="download" href="{{recordingSoundUrl}}" download="{{_downloadFile}}" style="display: none"></a>
+
+        <div class="control-wrapper">
+            <paper-icon-button class="buttons button-mic" icon="av:mic" disabled="{{isDisableMic}}" on-click="clickMic"></paper-icon-button>
+            <paper-icon-button class="buttons button-rec" icon="av:fiber-manual-record" disabled="{{_isDisableRecording}}" on-click="clickRecording"></paper-icon-button>
+            <paper-icon-button class="buttons button-play" icon="av:play-arrow" disabled="{{isDisablePlay}}" on-click="clickPlay"></paper-icon-button>
+            <paper-icon-button class="buttons button-pause" icon="av:pause" disabled="{{isDisablePause}}" on-click="clickPause"></paper-icon-button>
+            <paper-icon-button class="buttons button-stop" icon="av:stop" disabled="{{isDisableStop}}" on-click="clickStop"></paper-icon-button>
+            <div class="time-wrapper">
+                <div class="time">{{time_string}}</div>
+            </div>
+            <paper-icon-button id="recorded-sound-download" class$="{{getClasses(_isNewDownload)}}" icon="icons:file-download" disabled="{{isDisableDownload}}" on-click="clickDownload"></paper-icon-button>
+
+        </div>
+
+    </template>
+
+    <script>
+        /**
+         * `recording-button`
+         * This is button for recording sound
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class RecordingButton extends Polymer.Element {
+            static get is () { return 'recording-button'; }
+
+            static get properties () {
+                return {
+                    time             : {
+                        type    : Number,
+                        value   : 0,
+                        observer: '_timeChanged'
+                    },
+                    time_string      : {
+                        type : String,
+                        value: '0:00:00'
+                    },
+                    interval_id      : {
+                        type : Number,
+                        value: 0
+                    },
+                    isMic            : {
+                        type    : Boolean,
+                        value   : false,
+                        observer: '_isMic'
+                    },
+                    isDisableMic     : {
+                        type : Boolean,
+                        value: false
+                    },
+                    isRecording      : {
+                        type    : String,
+                        value   : null,
+                        observer: '_isRecording'
+                    },
+                    isDisablePlay    : {
+                        type : Boolean,
+                        value: true
+                    },
+                    isDisablePause   : {
+                        type : Boolean,
+                        value: true
+                    },
+                    isDisableStop    : {
+                        type : Boolean,
+                        value: true
+                    },
+                    isDisableDownload: {
+                        type : Boolean,
+                        value: true
+                    },
+                    recordingSoundUrl: {
+                        type    : String,
+                        value   : null,
+                        observer: '_recordingSoundUrlChange'
+                    },
+                    voice: {
+                        type: String,
+                        value: null
+                    }
+                };
+            }
+
+            constructor () {
+                super ();
+
+                this._recordedChunks = [];
+                this._isNewDownload = false;
+            }
+
+            ready () {
+                super.ready ();
+
+                // download
+                this._download = this.shadowRoot.querySelector ('#download');
+
+                // player
+                this._audioPlayer = this.shadowRoot.querySelector ('#player');
+
+                // getusermedia
+                this._getusermedia = this.shadowRoot.querySelector ('#getusermedia');
+
+                // player End Event
+                this._audioPlayer.onend = (e) => {
+                    this.clickStop ();
+                };
+
+                // get media stream
+                this._getusermedia.addEventListener ('getusermedia', (event) => {
+                    const stream = event.detail.stream;
+
+                    this.isMic = true;
+                    this.isRecording = 'off';
+
+                    // Media Recorder
+                    this._mediaRecorder = new MediaRecorder (stream, {mimeType: 'audio/webm'});
+
+                    // Media Recorder Data available
+                    this._mediaRecorder.ondataavailable = (event) => {
+                        if (event.data.size > 0) {
+                            this._recordedChunks.push (event.data);
+                        }
+                    };
+
+                    // Media Recorder Error
+                    this._mediaRecorder.onerror = (error) => {
+                        console.error (error);
+                    };
+
+                    // Media Recorder Start
+                    this._mediaRecorder.onstart = (e) => {
+                        this.isRecording = 'on';
+                    };
+
+                    // Media Recorder Pause
+                    this._mediaRecorder.onpause = (e) => {
+                        this.isRecording = 'pause';
+                    };
+
+                    // Media Recorder Resume
+                    this._mediaRecorder.onresume = (e) => {
+                        this.isRecording = 'on';
+                    };
+
+                    // Media Recorder Stop
+                    this._mediaRecorder.onstop = (e) => {
+                        this.isRecording = 'off';
+
+                        const superBuffer = new Blob (this._recordedChunks);
+
+                        var reader = new FileReader();
+                        reader.readAsDataURL(superBuffer);
+                        reader.onloadend = function() {
+                            var base64data = reader.result;
+                            var base64 = base64data.split(',')[1];
+                            this.voice = base64;
+                            console.log(this.voice);
+                        }.bind(this);
+
+
+                        this._recordedChunks = [];
+
+                        // Set URL for download
+                        this.recordingSoundUrl = window.URL.createObjectURL (superBuffer);
+
+                        // Set name of download file
+                        this._downloadFile = RecordingButton.getDownloadFileName ();
+
+                        // Set new flag
+                        this._isNewDownload = true;
+                    }
+
+                });
+
+                //
+                this._getusermedia.addEventListener ('error', (event) => {
+                    const message = event.detail.message;
+                    const err = event.detail.error;
+
+                    this.isDisableMic = false;
+                    this.isRecording = null;
+                    this.isDisablePlay = true;
+                    this.isDisablePause = true;
+                    this.isDisableStop = true;
+                    this.isDisableDownload = true;
+
+                    console.error (message);
+                });
+            }
+
+            start () {
+                this.interval_id = setInterval (() => {
+                    this.time = this.time + 10;
+                }, 10);
+            }
+
+            pause () {
+                if (this.interval_id) {
+                    clearInterval (this.interval_id);
+                    this.interval_id = null;
+                }
+            }
+
+            resume () {
+                this.interval_id = setInterval (() => {
+                    this.time = this.time + 10;
+                }, 10);
+            }
+
+            stop () {
+                if (this.interval_id) {
+                    clearInterval (this.interval_id);
+                    this.interval_id = null;
+                }
+                this.time = 0;
+            }
+
+            clickMic () {
+                this._getusermedia.start ();
+            }
+
+            clickRecording () {
+                // Not enable when unable mic
+                if (!this.isDisableMic) {
+                    this.isRecording = null;
+                    return;
+                }
+
+                this.isDisablePlay = true;
+                this.isDisablePause = false;
+                this.isDisableStop = false;
+
+                // Recording Start
+                if (this.isRecording === 'off') {
+                    this._mediaRecorder.start ();
+
+                    // Timer start
+                    this.start ();
+                }
+
+                // Recording Pause
+                if (this.isRecording === 'pause') {
+                    this._mediaRecorder.resume ();
+
+                    // Timer start
+                    this.resume ();
+                }
+            }
+
+            clickPlay () {
+                // Not enable when recording
+                if (this.isRecording === 'on') {
+                    return;
+                }
+
+                this.isDisablePlay = true;
+                this.isDisablePause = true;
+                this.isDisableStop = false;
+
+                // play of recorded audio
+                this._audioPlayer._play ();
+
+                // Timer start
+                this.start ();
+            }
+
+            clickPause () {
+                if (this.isRecording !== 'on') {
+                    return;
+                }
+
+                this.isRecording = 'pause';
+                this.isDisablePause = true;
+
+                // Timer pause
+                this.pause ();
+            }
+
+            clickStop () {
+                // Recording Stop
+                if (this.isRecording === 'on' || this.isRecording === 'pause') {
+                    this._mediaRecorder.stop ();
+                }
+
+                this.isDisablePlay = false;
+                this.isDisablePause = true;
+                this.isDisableStop = true;
+
+                // Timer stop
+                this.stop ();
+            }
+
+            clickDownload () {
+                this._download.click ();
+                this._isNewDownload = false;
+            }
+
+            getClasses (val) {
+                let classes = 'buttons button-dl';
+                if (val) {
+                    classes += ' badge';
+                }
+
+                return classes;
+            }
+
+            /**
+             * Static methods
+             */
+            static createTime (time) {
+                const hour = Math.floor (time / (60 * 60 * 1000));
+                time = time - (hour * 60 * 60 * 1000);
+
+                const min = Math.floor (time / (60 * 1000));
+                time = time - (min * 60 * 1000);
+
+                const sec = Math.floor (time / 1000);
+
+                const hour_s = hour;
+                const min_s = ('00' + min).slice (-2);
+                const sec_s = ('00' + sec).slice (-2);
+
+                return hour_s + ':' + min_s + ':' + sec_s;
+            }
+
+            static getDownloadFileName () {
+                const now = new Date ();
+                const y = now.getFullYear ();
+                const m = (`00${now.getMonth () + 1}`).slice (-2);
+                const d = (`00${now.getDate ()}`).slice (-2);
+                const hour = (`00${now.getHours ()}`).slice (-2);
+                const min = (`00${now.getMinutes ()}`).slice (-2);
+                const sec = (`00${now.getSeconds ()}`).slice (-2);
+                return `recording-${y}${m}${d}${hour}${min}${sec}.wav`;
+            }
+
+            /**
+             * Observer
+             */
+            _timeChanged (val) {
+                this.time_string = RecordingButton.createTime (val);
+            }
+
+            _isMic (val) {
+                this.isDisableMic = !!val;
+
+                if (val) {
+                    this.isRecording = 'ready';
+                    this.isDisablePlay = true;
+                    this.isDisableStop = true;
+                    this.isDisableDownload = true;
+                } else {
+                    this.isRecording = null;
+                    this.isDisablePlay = true;
+                    this.isDisableStop = true;
+                    this.isDisableDownload = true;
+                }
+
+            }
+
+            _isRecording (val) {
+                switch (val) {
+                    case 'ready':
+                        this._isDisableRecording = false;
+                        break;
+                    case 'on':
+                        this._isDisableRecording = true;
+                        break;
+                    case 'off':
+                        this._isDisableRecording = false;
+                        break;
+                    case 'pause':
+                        this._mediaRecorder.pause ();
+                        this._isDisableRecording = false;
+                        break;
+                    default :
+                        this._isDisableRecording = true;
+                        break;
+                }
+            }
+
+            _recordingSoundUrlChange (val) {
+                this.isDisableDownload = !val;
+            }
+        }
+
+        window.customElements.define (RecordingButton.is, RecordingButton);
+    </script>
+</dom-module>

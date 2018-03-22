@@ -1,59 +1,52 @@
 package com.example.ing.hackathon2018;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
-import java.util.UUID;
 
 
 public class RecordActivity extends AppCompatActivity {
 
-    private Button btn_record;
-    private Button btn_replay;
-    private String pathSave;
+    private Button btn_record, btn_replay, btn_next;
+    private ProgressBar progressBar;
     private boolean isRecordActive;
+    private static int step;
 
     private MediaRecorder mediaRecorder;
     String voiceStoragePath;
-
-    static final String AB = "abcdefghijklmnopqrstuvwxyz";
-    static Random rnd = new Random();
-
     MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
+        step = 1;
 
-//        hasSDCard();
+        progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+        progressBar.setMax(3);
+        progressBar.setProgress(1);
 
-//        voiceStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        File audioVoice = new File("/mnt/sdcard/hackathon/recordings/voices/");
+        File audioVoice = new File("/mnt/sdcard/hackathon/");
         if(!audioVoice.exists()){
             audioVoice.mkdir();
         }
-        voiceStoragePath = "/mnt/sdcard/hackathon/recordings/voices/" + generateVoiceFilename(6) + ".wav";
+        voiceStoragePath = "/mnt/sdcard/hackathon/" + String.valueOf(step) + ".wav";
         System.out.println("Audio path : " + voiceStoragePath);
 
         btn_record = (Button)findViewById(R.id.btn_record);
         btn_replay = (Button)findViewById(R.id.btn_replay);
+        btn_next = (Button)findViewById(R.id.btn_next);
 
         btn_replay.setEnabled(false);
+        btn_next.setEnabled(false);
         isRecordActive = false;
 
         initializeMediaRecord();
@@ -64,6 +57,7 @@ public class RecordActivity extends AppCompatActivity {
                 if(!isRecordActive){
                     isRecordActive = true;
                     btn_replay.setEnabled(false);
+                    btn_next.setEnabled(false);
                     btn_record.setText("STOP");
                     if(mediaRecorder == null){
                         initializeMediaRecord();
@@ -74,6 +68,7 @@ public class RecordActivity extends AppCompatActivity {
                     isRecordActive = false;
                     stopAudioRecording();
                     btn_replay.setEnabled(true);
+                    btn_next.setEnabled(true);
                 }
             }
         });
@@ -86,13 +81,20 @@ public class RecordActivity extends AppCompatActivity {
                 btn_record.setEnabled(true);
             }
         });
-    }
 
-    private String generateVoiceFilename( int len ){
-        StringBuilder sb = new StringBuilder( len );
-        for( int i = 0; i < len; i++ )
-            sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
-        return sb.toString();
+        btn_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                step += 1;
+                progressBar.setProgress(step);
+                btn_record.setEnabled(true);
+                if (step == 3) {
+                    btn_next.setText("FINISH");
+                }
+                btn_next.setEnabled(false);
+                btn_replay.setEnabled(false);
+            }
+        });
     }
 
     private void startAudioRecording(){
@@ -134,16 +136,6 @@ public class RecordActivity extends AppCompatActivity {
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
-        }
-    }
-
-    private void hasSDCard(){
-        Boolean isSDPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
-        if(isSDPresent)        {
-            System.out.println("There is SDCard");
-        }
-        else{
-            System.out.println("There is no SDCard");
         }
     }
 

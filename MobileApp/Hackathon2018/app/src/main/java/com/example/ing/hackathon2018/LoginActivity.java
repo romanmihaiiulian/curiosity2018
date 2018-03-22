@@ -11,16 +11,28 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private Button btn_login;
+    private ImageView record_view;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         init();
     }
+
+
 
     private void init(){
         SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
@@ -46,8 +58,15 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString(getString(R.string.username), username);
                 editor.commit();
                 Log.i("username",username);
-
                 startActivity(intent);
+            }
+        });
+
+        record_view = (ImageView) findViewById(R.id.imgview_record);
+        record_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
             }
         });
     }

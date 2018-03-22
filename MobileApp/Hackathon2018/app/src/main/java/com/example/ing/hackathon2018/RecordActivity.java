@@ -169,7 +169,6 @@ public class RecordActivity extends AppCompatActivity {
                     ex.printStackTrace();
                 }
             }
-
         });
         t.start();
         try {

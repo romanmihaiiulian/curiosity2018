@@ -15,10 +15,11 @@ public class LoginService {
     @Autowired
     private VoiceProvider voiceProvider;
 
-    public void verifyRecord(String userId, String base64Record) {
+    public String verifyRecord(String userId, String base64Record) {
         String result = voiceVerification(userId, "en-US", Base64.decodeBase64(base64Record));
 
         System.out.println("RESULT: " + result);
+        return result;
     }
 
     private String voiceVerification(String userId, String contentLanguage, byte[] recording) {

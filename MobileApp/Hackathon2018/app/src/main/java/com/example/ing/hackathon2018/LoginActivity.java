@@ -35,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+
                 EditText usernameEditText = (EditText)findViewById(R.id.et_login_username);
                 String username = usernameEditText.getText().toString();
 
@@ -45,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
                 editor.commit();
                 Log.i("username",username);
 
-                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
                 startActivity(intent);
             }
         });

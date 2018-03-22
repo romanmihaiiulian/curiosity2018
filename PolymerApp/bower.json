@@ -16,7 +16,9 @@
     "polymer": "Polymer/polymer#^2.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0",
     "recording-button": "monkick/recording-button#^1.2.0",
-    "iron-ajax": "^2.0.0"
+    "iron-ajax": "^2.0.0",
+    "iron-list": "^2.0.13",
+    "paper-progress": "^2.1.0"
   },
   "resolutions": {
     "polymer": "^2.0.0"

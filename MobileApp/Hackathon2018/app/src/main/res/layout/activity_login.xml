@@ -8,14 +8,16 @@
     tools:context="com.example.ing.hackathon2018.LoginActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="371dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginLeft="2px"
         android:layout_marginRight="2px"
         android:background="@color/white"
+        android:gravity="bottom"
         android:orientation="vertical"
-        android:weightSum="1">
+        android:weightSum="1"
+        tools:gravity="center_horizontal|center">
 
         <ImageView
             android:id="@+id/img_ing_logo"
@@ -107,14 +109,54 @@
                 app:srcCompat="@drawable/record" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="357dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="55px"
-            android:scaleType="fitEnd"
-            app:srcCompat="@drawable/border_ing" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20px"
+                android:layout_marginRight="20px"
+                android:background="@color/white"
+                android:gravity="bottom|end"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    app:srcCompat="@drawable/phone" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"></Space>
+
+                <ImageView
+                    android:layout_width="100px"
+                    android:layout_height="100px"
+                    app:srcCompat="@drawable/location" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"></Space>
+
+                <ImageView
+                    android:layout_width="100px"
+                    android:layout_height="100px"
+                    app:srcCompat="@drawable/barcode" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"></Space>
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="27dp"
+                    android:layout_height="100px"
+                    android:layout_weight="0.10"
+                    app:srcCompat="@drawable/exchange" />
+            </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

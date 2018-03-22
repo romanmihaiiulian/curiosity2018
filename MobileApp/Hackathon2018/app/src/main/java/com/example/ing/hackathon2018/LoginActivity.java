@@ -59,6 +59,8 @@ public class LoginActivity extends AppCompatActivity {
         // Put elements to the hashMap
         hashMap.put("af123456", "usr_e9474a4e87b64448bd2bc2ce18def910");
         hashMap.put("af123457", "usr_5746f73caa9a40e3a43ed00a327a2492");
+        hashMap.put("mr123456", "usr_e9474a4e87b64448bd2bc2ce18def910");
+        hashMap.put("ep123456", "usr_221ebde3c6d443089c498ab9feb8364a");
         init();
     }
 

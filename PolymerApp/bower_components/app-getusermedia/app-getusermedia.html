@@ -1,0 +1,111 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="app-getusermedia">
+    <template>
+        <style>
+            :host {
+            }
+        </style>
+    </template>
+
+    <script>
+        /**
+         * `app-getusermedia`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class AppGetusermedia extends Polymer.Element {
+            static get is () { return 'app-getusermedia'; }
+
+            static get properties () {
+                return {
+                    audio      : {
+                        type: Boolean,
+                        value: false,
+                        observer: '_audio'
+                    },
+                    video      : {
+                        type: Boolean,
+                        value: false,
+                        observer: '_video'
+                    },
+                    isUserMedia: {
+                        type    : Boolean,
+                        value   : false,
+                        observer: '_userMedia'
+                    }
+                };
+            }
+
+            constructor () {
+                super ();
+
+                // variables
+                this._constraints = {};
+
+                /**
+                 * Callback methods
+                 */
+                this._callbackGetUserMedia = (stream) => {
+                    this.dispatchEvent (
+                        new CustomEvent ('getusermedia', {
+                            detail: {stream: stream}
+                        })
+                    );
+                };
+
+                this._callbackGetUserMediaError = (error) => {
+                    this.isUserMedia = false;
+
+                    this.dispatchEvent (
+                        new CustomEvent ('error', {
+                            detail: {
+                                message: "The following error occurred: " + error.name,
+                                error: error,
+                            }
+                        })
+                    );
+                };
+            }
+
+            ready () {
+                super.ready ();
+
+                if (!navigator.mediaDevices) {
+                    this.dispatchEvent (new CustomEvent ('error', {detail: {message: 'getUserMedia() not supported.'}}));
+                    return;
+                }
+
+                this.start ();
+            }
+
+            start () {
+                this.isUserMedia = true;
+            }
+
+            /**
+             * Observer
+             */
+            _audio (val) {
+                this._constraints.audio = val;
+            }
+
+            _video (val) {
+                this._constraints.video = val;
+            }
+
+            _userMedia (val) {
+                if (val) {
+                    navigator.mediaDevices.getUserMedia (this._constraints)
+                        .then (this._callbackGetUserMedia)
+                        .catch (this._callbackGetUserMediaError);
+                }
+            }
+        }
+
+        window.customElements.define (AppGetusermedia.is, AppGetusermedia);
+    </script>
+</dom-module>

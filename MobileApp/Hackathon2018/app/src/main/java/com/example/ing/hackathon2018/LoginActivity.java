@@ -160,12 +160,14 @@ public class LoginActivity extends AppCompatActivity {
                                         .url("http://10.1.3.207:8088/api/login/" + uid.replaceAll("\"", ""))
                                         .post(RequestBody.create(JSON, Base64.encodeToString(bytes, 0)))
                                         .build();
+
                                 Response response = client.newCall(request).execute();
-                                if (response.body().string().contains("Fail")) {
-                                    isError = true;
-                                } else {
+                                isError = true;
+                                if (response.body().string().contains("SUCC")) {
                                     isError = false;
                                 }
+
+
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }

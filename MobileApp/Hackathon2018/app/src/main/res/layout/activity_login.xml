@@ -22,7 +22,7 @@
             android:layout_width="159dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/ing_logo" />
+            app:srcCompat="@drawable/ING_logo" />
 
         <LinearLayout
             android:layout_width="wrap_content"

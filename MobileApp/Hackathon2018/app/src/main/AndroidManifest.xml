@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".RecordActivity" />
         <activity android:name=".AuthenticateByVoiceActivity"></activity>
+        <activity android:name=".MainMenuActivity"></activity>
     </application>
 
 </manifest>

@@ -1,7 +1,5 @@
 package com.example.ing.hackathon2018;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -29,7 +27,6 @@ public class RecordActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private boolean isRecordActive;
     private static int step;
-    private static int step2;
     String result = "";
 
     private MediaRecorder mediaRecorder;
@@ -147,48 +144,6 @@ public class RecordActivity extends AppCompatActivity {
                     Request request = new Request.Builder()
 //                    .url("http://10.1.3.207:8088/api/register")
                             .url("http://10.1.4.48:8088/api/enroll/" + result.replaceAll("\"", ""))
-                            .post(RequestBody.create(JSON, Base64.encodeToString(bytes, 0)))
-                            .build();
-                    Response response = client.newCall(request).execute();
-                    Response resultId = response.networkResponse();
-                    System.out.println("got: " + resultId.toString());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-        }).start();
-    }
-
-    private void doLogin() {
-        SharedPreferences sharedPref = RecordActivity.this.getPreferences(Context.MODE_PRIVATE);
-
-        result = sharedPref.getString("userId", "");
-        System.out.println(result);
-        new Thread(new Runnable(){
-
-            @Override
-
-            public void run() {
-                try {
-
-                    File file = new File("/mnt/sdcard/hackathon/rec.wav");
-                    byte[] bytes = new byte[0];
-                    try {
-                        bytes = FileUtils.readFileToByteArray(file);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    MediaType JSON
-                            = MediaType.parse("application/json; charset=utf-8");
-
-                    OkHttpClient client = new OkHttpClient();
-
-                    Request request = new Request.Builder()
-//                    .url("http://10.1.3.207:8088/api/register")
-                            .url("http://10.1.4.48:8088/api/login/" + result.replaceAll("\"", ""))
                             .post(RequestBody.create(JSON, Base64.encodeToString(bytes, 0)))
                             .build();
                     Response response = client.newCall(request).execute();

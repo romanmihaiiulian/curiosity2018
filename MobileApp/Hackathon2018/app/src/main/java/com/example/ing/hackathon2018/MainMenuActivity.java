@@ -13,13 +13,23 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class MainMenuActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainmenu);
+        register();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -37,6 +47,7 @@ public class MainMenuActivity extends AppCompatActivity {
                     case R.id.nav_register:
                     default:
                         Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                        intent.putExtra("userId", uid);
                         startActivity(intent);
                         return true;
                 }
@@ -66,6 +77,42 @@ public class MainMenuActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    public void register() {
+        try {
+            new Thread(new Runnable(){
+
+                @Override
+
+                public void run() {
+                    MediaType JSON
+                            = MediaType.parse("application/json; charset=utf-8");
+
+                    OkHttpClient client = new OkHttpClient();
+
+                    Request request = new Request.Builder()
+//                    .url("http://10.1.3.207:8088/api/register")
+                            .url("http://10.1.4.48:8088/api/register")
+                            .post(RequestBody.create(JSON, ""))
+                            .build();
+                    Response response = null;
+                    try {
+                        response = client.newCall(request).execute();
+
+                    String resultId = response.body().string();
+                    System.out.println("got: " + resultId);
+                    uid = resultId;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }).start();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

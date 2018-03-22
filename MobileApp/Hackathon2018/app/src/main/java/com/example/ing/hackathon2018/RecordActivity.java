@@ -1,7 +1,5 @@
 package com.example.ing.hackathon2018;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;

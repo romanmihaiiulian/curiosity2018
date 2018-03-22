@@ -7,6 +7,7 @@ import android.util.Base64;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ import okhttp3.Response;
 
 public class RecordActivity extends AppCompatActivity {
 
-    private Button btn_record, btn_replay, btn_next;
+    private ImageView btn_record, btn_replay, btn_next;
     private ProgressBar progressBar;
     private boolean isRecordActive;
     private static int step;
@@ -58,9 +59,9 @@ public class RecordActivity extends AppCompatActivity {
 
 
 
-        btn_record = (Button)findViewById(R.id.btn_record);
-        btn_replay = (Button)findViewById(R.id.btn_replay);
-        btn_next = (Button)findViewById(R.id.btn_next);
+        btn_record = (ImageView) findViewById(R.id.btn_record);
+        btn_replay = (ImageView)findViewById(R.id.btn_replay);
+        btn_next = (ImageView)findViewById(R.id.btn_next);
 
         btn_replay.setEnabled(false);
         btn_next.setEnabled(false);
@@ -75,13 +76,13 @@ public class RecordActivity extends AppCompatActivity {
                     isRecordActive = true;
                     btn_replay.setEnabled(false);
                     btn_next.setEnabled(false);
-                    btn_record.setText("STOP");
+                    btn_record.setImageResource(R.drawable.stop);
                     if(mediaRecorder == null){
                         initializeMediaRecord();
                     }
                     startAudioRecording();
                 }else {
-                    btn_record.setText("RECORD");
+                    btn_record.setImageResource(R.drawable.record);
                     isRecordActive = false;
                     stopAudioRecording();
                     btn_replay.setEnabled(true);
@@ -109,7 +110,7 @@ public class RecordActivity extends AppCompatActivity {
                     progressBar.setProgress(step);
                     btn_record.setEnabled(true);
                     if (step == 3) {
-                        btn_next.setText("FINISH");
+                        btn_next.setImageResource(R.drawable.finish);
                     }
                     if (step == 4) {
                         Toast.makeText(getApplicationContext(), "Successfully registered your voice", Toast.LENGTH_SHORT).show();

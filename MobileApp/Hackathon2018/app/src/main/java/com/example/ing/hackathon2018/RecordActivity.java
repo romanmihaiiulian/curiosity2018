@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
 
@@ -28,6 +29,7 @@ public class RecordActivity extends AppCompatActivity {
     private boolean isRecordActive;
     private static int step;
     String result = "";
+    private boolean isError;
 
     private MediaRecorder mediaRecorder;
     String voiceStoragePath;
@@ -102,15 +104,24 @@ public class RecordActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println(step);
                 sendRecording();
-//                doLogin();
-                step += 1;
-                progressBar.setProgress(step);
-                btn_record.setEnabled(true);
-                if (step == 3) {
-                    btn_next.setText("FINISH");
+                if (!isError) {
+                    step += 1;
+                    progressBar.setProgress(step);
+                    btn_record.setEnabled(true);
+                    if (step == 3) {
+                        btn_next.setText("FINISH");
+                    }
+                    if (step == 4) {
+                        Toast.makeText(getApplicationContext(), "Successfully registered your voice", Toast.LENGTH_SHORT).show();
+                    }
+                    btn_next.setEnabled(false);
+                    btn_replay.setEnabled(false);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please record your voice again", Toast.LENGTH_SHORT).show();
+                    btn_record.setEnabled(true);
+                    btn_next.setEnabled(false);
+                    btn_replay.setEnabled(false);
                 }
-                btn_next.setEnabled(false);
-                btn_replay.setEnabled(false);
             }
         });
     }
@@ -120,7 +131,7 @@ public class RecordActivity extends AppCompatActivity {
 //
 //        result = sharedPref.getString("userId", "");
 //        System.out.println(result);
-        new Thread(new Runnable(){
+        Thread t = new Thread(new Runnable(){
 
             @Override
 
@@ -142,19 +153,29 @@ public class RecordActivity extends AppCompatActivity {
 
                     System.out.println(result);
                     Request request = new Request.Builder()
-//                    .url("http://10.1.3.207:8088/api/register")
+//                    .url("http://10.1.3.207:8088/api/enroll/usr_e9474a4e87b64448bd2bc2ce18def910")
                             .url("http://10.1.4.48:8088/api/enroll/" + result.replaceAll("\"", ""))
                             .post(RequestBody.create(JSON, Base64.encodeToString(bytes, 0)))
                             .build();
                     Response response = client.newCall(request).execute();
                     Response resultId = response.networkResponse();
+                    if (response.body().string().contains("Fail")) {
+                        isError = true;
+                    } else {
+                        isError = false;
+                    }
                     System.out.println("got: " + resultId.toString());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
-
-        }).start();
+        });
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void startAudioRecording(){

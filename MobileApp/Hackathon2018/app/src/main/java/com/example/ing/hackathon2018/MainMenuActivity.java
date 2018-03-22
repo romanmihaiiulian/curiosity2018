@@ -54,7 +54,6 @@ public class MainMenuActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putString("userId", uid);
                         editor.commit();
-                        Log.i("uid", "test " + uid);
                         intent.putExtra("userId", uid);
                         startActivity(intent);
                         return true;

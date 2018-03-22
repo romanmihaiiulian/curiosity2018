@@ -15,10 +15,10 @@ public class LoginHandler {
     @CrossOrigin
     @RequestMapping(value = "/api/login/{id}", method = RequestMethod.POST)
     public Mono login(@PathVariable(value="id") String id, @RequestBody String base64Record) {
-        loginService.verifyRecord(id, base64Record);
+        String authResult = loginService.verifyRecord(id, base64Record);
 
         return Mono.just
-                (ServerResponse.ok().build());
+                (authResult);
     }
 
 }

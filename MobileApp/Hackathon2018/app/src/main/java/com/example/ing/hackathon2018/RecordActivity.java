@@ -2,9 +2,8 @@ package com.example.ing.hackathon2018;
 
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -30,11 +29,12 @@ public class RecordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_record);
         step = 1;
 
+        File audioVoice = new File("/mnt/sdcard/hackathon/recordings/voices/");
+
         progressBar = (ProgressBar)findViewById(R.id.progress_bar);
         progressBar.setMax(3);
         progressBar.setProgress(1);
 
-        File audioVoice = new File("/mnt/sdcard/hackathon/");
         if(!audioVoice.exists()){
             audioVoice.mkdir();
         }

@@ -1,0 +1,26 @@
+{
+  "name": "app-getusermedia",
+  "main": "app-getusermedia.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0"
+  },
+  "devDependencies": {
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "^2.0.0"
+  },
+  "homepage": "https://github.com/monkick/app-getusermedia",
+  "version": "0.2.1",
+  "_release": "0.2.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.2.1",
+    "commit": "b21332ce278c16f0b961f457ef6898c73dbe984d"
+  },
+  "_source": "https://github.com/monkick/app-getusermedia.git",
+  "_target": "^0.2.1",
+  "_originalSource": "monkick/app-getusermedia"
+}

@@ -7,10 +7,12 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-
+<link rel="import" href="../bower_components/paper-input.html">
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/recording-button/recording-button.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view1">
@@ -21,19 +23,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         padding: 10px;
       }
+      
+  }
     </style>
 
     <div class="card">
+        <h1 style="font-size:200%;">Please go in quite place and read one of line bellow :</h1>
+     
+       <iron-list items="[[data]]" as="item">
+        <template>
+          <div>
+            [[item.name]]
+          </div>
+        </template>
+      </iron-list>
 
-      <button on-click="callReqister">Register</button>
-
-      <button on-click="callEnroll">Enroll</button>
-
-      <button on-click="callLogin">Login</button>
+       <br/>
+<!--        <paper-input label="total">
+        <div prefix>usr_</div>
+        <paper-icon-button slot="suffix" icon="clear"></paper-icon-button>
+        </paper-input>-->
+       <br/>  
+       <br/>
 
       <recording-button id="recordVoice" voice="{{voiceContent}}"></recording-button>
+      
+      <br/>
+      <br/>
+      <div>
+          <button on-click="callReqister">Register</button>
+          <button on-click="callEnroll">Enroll</button> 
+          <button on-click="callLogin">Login</button>
+      </div>
+      <br/>
+      
 
 
+      <paper-progress step="1" value="1" max="3"></paper-progress>
+          
       <iron-ajax
               id="callReqister"
               method="POST"
@@ -84,8 +111,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 userId: {
                     type: String,
                     value: null
+                },
+                data: {
+                    type: Array,
+                    value: [
+                        {"name": "Zoos are filled with small and large animals"},
+                        {"name": "Remember to wash your hands before eating"},
+                        {"name": "Today is a nice day to go for a walk"},
+                        {"name": "Please initiate my smart banking assistant"}
+                    ]
                 }
-            }
+            };
         }
 
         constructor () {
@@ -97,7 +133,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         ready () {
             super.ready();
-            console.log(this.voiceContent);
         }
 
         callReqister() {
@@ -109,10 +144,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         callEnroll() {
-
-
-          // this.$.callEnroll.url += this.userId;
-          // console.log(this.$.callEnroll.url);
+          this.callReqister();
           this.$.callEnroll.body = this.$.recordVoice.voice;
           this.$.callEnroll.generateRequest();
         }

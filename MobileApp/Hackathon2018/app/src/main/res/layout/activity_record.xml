@@ -32,25 +32,47 @@
         android:layout_marginTop="400px"
         android:orientation="horizontal">
 
-        <Button
+        <!--<Button-->
+            <!--android:id="@+id/btn_replay"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="REPLAY" />-->
+        <!---->
+        <ImageView
             android:id="@+id/btn_replay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="REPLAY" />
+            android:src="@drawable/replay"/>
 
-        <Button
+        <ImageView
             android:id="@+id/btn_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20px"
-            android:text="RECORD" />
+            android:src="@drawable/record" />
 
-        <Button
+        <ImageView
             android:id="@+id/btn_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="NEXT" />
+            android:layout_marginLeft="20px"
+            android:src="@drawable/next" />
+
+        <!---->
+        <!--<Button-->
+            <!--android:id="@+id/btn_record"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20px"-->
+            <!--android:text="RECORD" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/btn_next"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="NEXT" />-->
     </LinearLayout>
 
 

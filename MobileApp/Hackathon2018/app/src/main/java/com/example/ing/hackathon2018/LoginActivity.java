@@ -122,12 +122,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(!isRecordActive){
                     isRecordActive = true;
+                    record_view.setImageResource(R.drawable.stop);
                     if(mediaRecorder == null){
                         initializeMediaRecord();
                     }
                     startAudioRecording();
-                    record_view.setBackgroundColor(Color.RED);
+                    //record_view.setBackgroundColor(Color.RED);
                 }else {
+                    record_view.setImageResource(R.drawable.ic_register);
                     isRecordActive = false;
                     stopAudioRecording();
                     record_view.setBackgroundColor(Color.WHITE);
@@ -182,7 +184,7 @@ public class LoginActivity extends AppCompatActivity {
 //                        intent.putExtra("isError", isError);
                     } else {
 //                        intent.putExtra("isError", isError);
-                        Intent intent = new Intent(getApplicationContext(), AuthenticateByVoiceActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
                         startActivity(intent);
                     }
                 }

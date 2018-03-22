@@ -20,21 +20,24 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private Button btn_login;
+    private String uid;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        init();
+
         new Thread(new Runnable(){
 
             @Override
 
             public void run() {
-                register();
+                uid = register();
             }
 
         }).start();
+        init();
     }
 
     public String register() {
@@ -79,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(getString(R.string.username), username);
+                editor.putString("userId", uid);
                 editor.commit();
                 Log.i("username",username);
 

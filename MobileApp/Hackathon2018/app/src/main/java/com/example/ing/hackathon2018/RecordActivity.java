@@ -1,16 +1,27 @@
 package com.example.ing.hackathon2018;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class RecordActivity extends AppCompatActivity {
@@ -19,6 +30,8 @@ public class RecordActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private boolean isRecordActive;
     private static int step;
+    private static int step2;
+    String result = "";
 
     private MediaRecorder mediaRecorder;
     String voiceStoragePath;
@@ -38,8 +51,11 @@ public class RecordActivity extends AppCompatActivity {
         if(!audioVoice.exists()){
             audioVoice.mkdir();
         }
-        voiceStoragePath = "/mnt/sdcard/hackathon/" + String.valueOf(step) + ".wav";
+//        voiceStoragePath = "/mnt/sdcard/hackathon/" + String.valueOf(step) + ".wav";
+        voiceStoragePath = "/mnt/sdcard/hackathon/rec.wav";
         System.out.println("Audio path : " + voiceStoragePath);
+
+
 
         btn_record = (Button)findViewById(R.id.btn_record);
         btn_replay = (Button)findViewById(R.id.btn_replay);
@@ -85,6 +101,8 @@ public class RecordActivity extends AppCompatActivity {
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println(step);
+                doLogin();
                 step += 1;
                 progressBar.setProgress(step);
                 btn_record.setEnabled(true);
@@ -95,6 +113,90 @@ public class RecordActivity extends AppCompatActivity {
                 btn_replay.setEnabled(false);
             }
         });
+    }
+
+    private void sendRecording() {
+        SharedPreferences sharedPref = RecordActivity.this.getPreferences(Context.MODE_PRIVATE);
+
+        result = sharedPref.getString("userId", "");
+        System.out.println(result);
+        new Thread(new Runnable(){
+
+            @Override
+
+            public void run() {
+                try {
+
+                    File file = new File("/mnt/sdcard/hackathon/rec.wav");
+                    byte[] bytes = new byte[0];
+                    try {
+                        bytes = FileUtils.readFileToByteArray(file);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    MediaType JSON
+                            = MediaType.parse("application/json; charset=utf-8");
+
+                    OkHttpClient client = new OkHttpClient();
+
+                    Request request = new Request.Builder()
+//                    .url("http://10.1.3.207:8088/api/register")
+                            .url("http://10.1.4.48:8088/api/enroll/usr_37112468a86049918cfa7498b739179b" + result)
+                            .post(RequestBody.create(JSON, Base64.encodeToString(bytes, 0)))
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    Response resultId = response.networkResponse();
+                    System.out.println("got: " + resultId.toString());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+        }).start();
+    }
+
+    private void doLogin() {
+        SharedPreferences sharedPref = RecordActivity.this.getPreferences(Context.MODE_PRIVATE);
+
+        result = sharedPref.getString("userId", "");
+        System.out.println(result);
+        new Thread(new Runnable(){
+
+            @Override
+
+            public void run() {
+                try {
+
+                    File file = new File("/mnt/sdcard/hackathon/rec.wav");
+                    byte[] bytes = new byte[0];
+                    try {
+                        bytes = FileUtils.readFileToByteArray(file);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    MediaType JSON
+                            = MediaType.parse("application/json; charset=utf-8");
+
+                    OkHttpClient client = new OkHttpClient();
+
+                    Request request = new Request.Builder()
+//                    .url("http://10.1.3.207:8088/api/register")
+                            .url("http://10.1.4.48:8088/api/login/usr_37112468a86049918cfa7498b739179b" + result)
+                            .post(RequestBody.create(JSON, Base64.encodeToString(bytes, 0)))
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    Response resultId = response.networkResponse();
+                    System.out.println("got: " + resultId.toString());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+        }).start();
     }
 
     private void startAudioRecording(){

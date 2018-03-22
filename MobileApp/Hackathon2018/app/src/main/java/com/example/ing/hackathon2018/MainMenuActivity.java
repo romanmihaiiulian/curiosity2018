@@ -100,7 +100,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
                     Request request = new Request.Builder()
 //                    .url("http://10.1.3.207:8088/api/register")
-                            .url("http://10.1.4.48:8088/api/register")
+                            .url("http://10.1.3.207:8088/api/register")
                             .post(RequestBody.create(JSON, ""))
                             .build();
                     Response response = null;

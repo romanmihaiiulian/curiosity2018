@@ -154,7 +154,7 @@ public class RecordActivity extends AppCompatActivity {
                     System.out.println(result);
                     Request request = new Request.Builder()
 //                    .url("http://10.1.3.207:8088/api/enroll/usr_e9474a4e87b64448bd2bc2ce18def910")
-                            .url("http://10.1.4.48:8088/api/enroll/" + result.replaceAll("\"", ""))
+                            .url("http://10.1.3.207:8088/api/enroll/" + result.replaceAll("\"", ""))
                             .post(RequestBody.create(JSON, Base64.encodeToString(bytes, 0)))
                             .build();
                     Response response = client.newCall(request).execute();

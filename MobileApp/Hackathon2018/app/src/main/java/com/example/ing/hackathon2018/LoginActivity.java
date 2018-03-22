@@ -155,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 Request request = new Request.Builder()
 //                                        .url("http://10.1.3.207:8088/api/login/usr_e9474a4e87b64448bd2bc2ce18def910")
-                                        .url("http://10.1.4.207:8088/api/login/" + uid.replaceAll("\"", ""))
+                                        .url("http://10.1.3.207:8088/api/login/" + uid.replaceAll("\"", ""))
                                         .post(RequestBody.create(JSON, Base64.encodeToString(bytes, 0)))
                                         .build();
                                 Response response = client.newCall(request).execute();

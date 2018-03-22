@@ -26,10 +26,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <div class="card">
-
-      <!--<button on-click="callReqister">Register</button>-->
-
-      <iron-list items="[[data]]" as="item">
+        <h1 style="font-size:200%;">Please go in quite place and read one of line bellow :</h1>
+     
+       <iron-list items="[[data]]" as="item">
         <template>
           <div>
             [[item.name]]
@@ -40,14 +39,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <br/>
       <br/>
 
-      <button on-click="callEnroll">Enroll</button>
-
-      <button on-click="callLogin">Login</button>
-
       <recording-button id="recordVoice" voice="{{voiceContent}}"></recording-button>
+      
+      <br/>
+      <br/>
+      <div>
+          <button on-click="callReqister">Register</button>
+          <button on-click="callEnroll">Enroll</button> 
+          <button on-click="callLogin">Login</button>
+      </div>
+      <br/>
 
-      <br/>
-      <br/>
 
       <paper-progress step="1" value="1" max="3"></paper-progress>
 

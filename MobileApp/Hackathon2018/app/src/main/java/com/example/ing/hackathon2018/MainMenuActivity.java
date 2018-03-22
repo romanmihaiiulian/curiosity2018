@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -27,6 +28,8 @@ import okhttp3.Response;
 public class MainMenuActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private String uid;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class MainMenuActivity extends AppCompatActivity {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout.openDrawer(GravityCompat.START);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -85,6 +89,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 }
         );
     }
+
 
     public void register() {
         try {

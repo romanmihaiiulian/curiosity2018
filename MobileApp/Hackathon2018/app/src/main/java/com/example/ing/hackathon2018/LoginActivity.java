@@ -184,6 +184,7 @@ public class LoginActivity extends AppCompatActivity {
 //                        intent.putExtra("isError", isError);
                     } else {
 //                        intent.putExtra("isError", isError);
+                        Toast.makeText(getApplicationContext(), "Authentication successful", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
                         startActivity(intent);
                     }

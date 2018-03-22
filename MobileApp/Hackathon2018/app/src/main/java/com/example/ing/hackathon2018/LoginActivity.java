@@ -19,6 +19,8 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -35,15 +37,19 @@ public class LoginActivity extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     private boolean isRecordActive;
 
+    HashMap<String, String> hashMap = new HashMap<String, String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Put elements to the hashMap
+        hashMap.put("af123456", "usr_e9474a4e87b64448bd2bc2ce18def910");
+        hashMap.put("af123457", "usr_5746f73caa9a40e3a43ed00a327a2492");
         init();
     }
-
 
 
     private void init(){
@@ -56,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         usernameEditText.setText(result);
 
         btn_login = (Button) findViewById(R.id.btn_login);
+
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,16 +87,26 @@ public class LoginActivity extends AppCompatActivity {
         record_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences prefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
-                uid = prefs.getString("userId", "323");
 
-                File audioVoice = new File("/mnt/sdcard/hackathon/recordings/voices/");
+                EditText usernameEditText = (EditText)findViewById(R.id.et_login_username);
+                String username = usernameEditText.getText().toString();
 
+                uid = hashMap.get(username);
+              //  uid = "\"" + uid + "\"";
+                Log.i("uid", uid + " af123");
+
+               if(uid.equals("")){
+                    SharedPreferences prefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+                    uid = prefs.getString("userId", "323");
+
+                Log.i("uid", uid + " af123");
+              }
+                File audioVoice = new File("/mnt/sdcard/hackathon/");
 
                 if(!audioVoice.exists()){
                     audioVoice.mkdir();
                 }
-//        voiceStoragePath = "/mnt/sdcard/hackathon/" + String.valueOf(step) + ".wav";
+
                 voiceStoragePath = "/mnt/sdcard/hackathon/rec.wav";
 
                 if(!isRecordActive){
@@ -127,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 Request request = new Request.Builder()
 //                    .url("http://10.1.3.207:8088/api/register")
-                                        .url("http://10.1.4.48:8088/api/login/" + uid.replaceAll("\"", ""))
+                                        .url("http://10.1.3.207:8088/api/login/" + uid.replaceAll("\"", ""))
                                         .post(RequestBody.create(JSON, Base64.encodeToString(bytes, 0)))
                                         .build();
                                 Response response = client.newCall(request).execute();

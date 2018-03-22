@@ -1,7 +1,10 @@
 package com.example.ing.hackathon2018;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -47,6 +50,10 @@ public class MainMenuActivity extends AppCompatActivity {
                     case R.id.nav_register:
                     default:
                         Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                        SharedPreferences sharedPref = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("userId", uid);
+                        editor.commit();
                         intent.putExtra("userId", uid);
                         startActivity(intent);
                         return true;

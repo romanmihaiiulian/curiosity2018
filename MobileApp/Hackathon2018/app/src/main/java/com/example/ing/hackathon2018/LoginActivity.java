@@ -28,39 +28,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        new Thread(new Runnable(){
-
-            @Override
-
-            public void run() {
-                uid = register();
-            }
-
-        }).start();
         init();
     }
 
-    public String register() {
-        try {
-            MediaType JSON
-                    = MediaType.parse("application/json; charset=utf-8");
 
-            OkHttpClient client = new OkHttpClient();
-
-            Request request = new Request.Builder()
-//                    .url("http://10.1.3.207:8088/api/register")
-                    .url("http://10.1.4.48:8088/api/register")
-                    .post(RequestBody.create(JSON, ""))
-                    .build();
-            Response response = client.newCall(request).execute();
-            String resultId = response.body().string();
-            System.out.println("got: " + resultId);
-            return resultId;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-       return "";
-    }
 
     private void init(){
         SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
@@ -75,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+
                 EditText usernameEditText = (EditText)findViewById(R.id.et_login_username);
                 String username = usernameEditText.getText().toString();
 
@@ -84,9 +57,6 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString(getString(R.string.username), username);
                 editor.commit();
                 Log.i("username",username);
-
-                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
-                intent.putExtra("userId", uid);
                 startActivity(intent);
             }
         });

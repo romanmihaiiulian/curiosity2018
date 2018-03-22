@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -20,7 +21,7 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private Button btn_login;
-    private String uid;
+    private ImageView record_view;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,14 @@ public class LoginActivity extends AppCompatActivity {
                 editor.commit();
                 Log.i("username",username);
                 startActivity(intent);
+            }
+        });
+
+        record_view = (ImageView) findViewById(R.id.imgview_record);
+        record_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
             }
         });
     }

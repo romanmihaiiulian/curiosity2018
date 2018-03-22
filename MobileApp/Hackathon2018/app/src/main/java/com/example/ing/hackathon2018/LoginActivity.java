@@ -82,11 +82,11 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(getString(R.string.username), username);
-                editor.putString("userId", uid);
                 editor.commit();
                 Log.i("username",username);
 
                 Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                intent.putExtra("userId", uid);
                 startActivity(intent);
             }
         });

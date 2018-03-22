@@ -41,6 +41,8 @@ public class RecordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
+        Bundle extras = getIntent().getExtras();
+        result = extras.getString("userId");
         step = 1;
 
         progressBar = (ProgressBar)findViewById(R.id.progress_bar);
@@ -102,7 +104,8 @@ public class RecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println(step);
-                doLogin();
+                sendRecording();
+//                doLogin();
                 step += 1;
                 progressBar.setProgress(step);
                 btn_record.setEnabled(true);
@@ -116,10 +119,10 @@ public class RecordActivity extends AppCompatActivity {
     }
 
     private void sendRecording() {
-        SharedPreferences sharedPref = RecordActivity.this.getPreferences(Context.MODE_PRIVATE);
-
-        result = sharedPref.getString("userId", "");
-        System.out.println(result);
+//        SharedPreferences sharedPref = RecordActivity.this.getPreferences(Context.MODE_PRIVATE);
+//
+//        result = sharedPref.getString("userId", "");
+//        System.out.println(result);
         new Thread(new Runnable(){
 
             @Override
@@ -135,15 +138,15 @@ public class RecordActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-
                     MediaType JSON
                             = MediaType.parse("application/json; charset=utf-8");
 
                     OkHttpClient client = new OkHttpClient();
 
+                    System.out.println(result);
                     Request request = new Request.Builder()
 //                    .url("http://10.1.3.207:8088/api/register")
-                            .url("http://10.1.4.48:8088/api/enroll/usr_37112468a86049918cfa7498b739179b" + result)
+                            .url("http://10.1.4.48:8088/api/enroll/" + result.replaceAll("\"", ""))
                             .post(RequestBody.create(JSON, Base64.encodeToString(bytes, 0)))
                             .build();
                     Response response = client.newCall(request).execute();
@@ -185,7 +188,7 @@ public class RecordActivity extends AppCompatActivity {
 
                     Request request = new Request.Builder()
 //                    .url("http://10.1.3.207:8088/api/register")
-                            .url("http://10.1.4.48:8088/api/login/usr_37112468a86049918cfa7498b739179b" + result)
+                            .url("http://10.1.4.48:8088/api/login/" + result.replaceAll("\"", ""))
                             .post(RequestBody.create(JSON, Base64.encodeToString(bytes, 0)))
                             .build();
                     Response response = client.newCall(request).execute();

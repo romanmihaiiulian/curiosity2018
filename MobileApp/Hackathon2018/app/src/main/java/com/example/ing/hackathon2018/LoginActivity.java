@@ -3,8 +3,10 @@ package com.example.ing.hackathon2018;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
 
@@ -34,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private MediaRecorder mediaRecorder;
     MediaPlayer mediaPlayer;
     private boolean isRecordActive;
+    private boolean isError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,13 +102,15 @@ public class LoginActivity extends AppCompatActivity {
                         initializeMediaRecord();
                     }
                     startAudioRecording();
+                    record_view.setBackgroundColor(Color.RED);
                 }else {
                     isRecordActive = false;
                     stopAudioRecording();
+                    record_view.setBackgroundColor(Color.WHITE);
                 }
 
                 if (!isRecordActive) {
-                    new Thread(new Runnable(){
+                    Thread t = new Thread(new Runnable(){
 
                         @Override
 
@@ -126,19 +132,37 @@ public class LoginActivity extends AppCompatActivity {
                                 OkHttpClient client = new OkHttpClient();
 
                                 Request request = new Request.Builder()
-//                    .url("http://10.1.3.207:8088/api/register")
+//                                        .url("http://10.1.3.207:8088/api/login/usr_e9474a4e87b64448bd2bc2ce18def910")
                                         .url("http://10.1.4.48:8088/api/login/" + uid.replaceAll("\"", ""))
                                         .post(RequestBody.create(JSON, Base64.encodeToString(bytes, 0)))
                                         .build();
                                 Response response = client.newCall(request).execute();
-                                Response resultId = response.networkResponse();
-                                System.out.println("got: " + resultId.toString());
+                                if (response.body().string().contains("Fail")) {
+                                    isError = true;
+                                } else {
+                                    isError = false;
+                                }
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
                         }
 
-                    }).start();
+                    });
+                    t.start();
+                    try {
+                        t.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (isError) {
+                        Toast.makeText(getApplicationContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
+//                        intent.putExtra("isError", isError);
+                    } else {
+//                        intent.putExtra("isError", isError);
+                        Intent intent = new Intent(getApplicationContext(), AuthenticateByVoiceActivity.class);
+                        startActivity(intent);
+                    }
+
                 }
 
             }

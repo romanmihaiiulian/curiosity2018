@@ -6,4 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.example.ing.hackathon2018.AuthenticateByVoiceActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical|center"
+        android:text="You were successfully authenticated!"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="175dp" />
 </android.support.constraint.ConstraintLayout>
